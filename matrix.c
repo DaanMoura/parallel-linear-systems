@@ -73,49 +73,49 @@ void print_vector(double* vector, int n) {
   }
 }
 
-int main() {
-  int i,j,n;
-  char filename[30];
-  double **M;
+// int main() {
+//   int i,j,n;
+//   char filename[30];
+//   double **M;
 
-  n = 5;
+//   n = 5;
 
-  M = (double**) malloc(n * sizeof(double*));
-  for(i=0; i<n; i++) {
-    M[i] = (double*) malloc((n+1) * sizeof(double));
-  }
+//   M = (double**) malloc(n * sizeof(double*));
+//   for(i=0; i<n; i++) {
+//     M[i] = (double*) malloc((n+1) * sizeof(double));
+//   }
 
-  for(i=0;i<10;i++) {
-    sprintf(filename,"matrices/5-%d.txt",i);
-    generate_matrix(M,n);
-    write_matrix_file(M,n,filename);
-  }
+//   for(i=0;i<10;i++) {
+//     sprintf(filename,"matrices/5-%d.txt",i);
+//     generate_matrix(M,n);
+//     write_matrix_file(M,n,filename);
+//   }
 
-  for(i=1;i<10;i++) {
-    n = 10 * i;
-    M = (double**) malloc(n * sizeof(double*));
-    for(j=0; j<n; j++) {
-      M[j] = (double*) malloc((n+1) * sizeof(double));
-    }
-    for(j=0; j<10;j++) {
-      sprintf(filename,"matrices/%d-%d.txt",n,j);
-      generate_matrix(M,n);
-      write_matrix_file(M,n,filename);
-    }
-  }
+//   for(i=1;i<10;i++) {
+//     n = 10 * i;
+//     M = (double**) malloc(n * sizeof(double*));
+//     for(j=0; j<n; j++) {
+//       M[j] = (double*) malloc((n+1) * sizeof(double));
+//     }
+//     for(j=0; j<10;j++) {
+//       sprintf(filename,"matrices/%d-%d.txt",n,j);
+//       generate_matrix(M,n);
+//       write_matrix_file(M,n,filename);
+//     }
+//   }
 
-  for(i=1;i<10;i++) {
-    n = 100 * i;
-    M = (double**) malloc(n * sizeof(double*));
-    for(j=0; j<n; j++) {
-      M[j] = (double*) malloc((n+1) * sizeof(double));
-    }
-    for(j=0; j<10;j++) {
-      sprintf(filename,"matrices/%d-%d.txt",n,j);
-      generate_matrix(M,n);
-      write_matrix_file(M,n,filename);
-    }
-  }
+//   for(i=1;i<10;i++) {
+//     n = 100 * i;
+//     M = (double**) malloc(n * sizeof(double*));
+//     for(j=0; j<n; j++) {
+//       M[j] = (double*) malloc((n+1) * sizeof(double));
+//     }
+//     for(j=0; j<10;j++) {
+//       sprintf(filename,"matrices/%d-%d.txt",n,j);
+//       generate_matrix(M,n);
+//       write_matrix_file(M,n,filename);
+//     }
+//   }
 
-  return 0;
-}
+//   return 0;
+// }
