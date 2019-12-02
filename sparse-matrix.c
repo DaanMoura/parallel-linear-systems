@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/resource.h>
+#include <sys/time.h>
 #include "linked-list.c"
 #include "matrix.c"
 
@@ -17,7 +19,10 @@ int main(int argc, char* argv[])
     int i,j,k,n;
     double **matrix;
     char filename[30];
-    node **M;
+    List **M;
+
+    struct timeval inic,fim;
+    struct rusage r1, r2; 
 
     if(argc!=2) {
         printf("Não passou o nome do arquivo\n");
@@ -31,17 +36,21 @@ int main(int argc, char* argv[])
 
     matrix = (double**) malloc(n * sizeof(double*));
     for(i=0; i<n; i++) {
-        matrix[i] = (double*) malloc((n+1) * sizeof(node));
+        matrix[i] = (double*) malloc((n+1) * sizeof(double));
     }
 
     read_matrix_file(matrix, n, filename);
-    print_matrix(matrix, n);
+    // print_matrix(matrix, n);
 
-    M = (node**) malloc(n * sizeof(node*));
+
+    M = (List**) malloc(n * sizeof(List*));
     for(i=0; i<n; i++) {
-        M[i] = (node*) malloc(sizeof(node));
+        M[i] = (List*) malloc(sizeof(List));
         list_init(M[i]);
     }
+
+    gettimeofday(&inic,0);
+    getrusage(RUSAGE_SELF, &r1);
 
     for(i=0;i<n;i++) {
         for(j=0;j<n+1;j++) {
@@ -51,7 +60,15 @@ int main(int argc, char* argv[])
         }
     }
 
-    print_sparse_matrix(M,n);
+    gettimeofday(&fim,0);
+    getrusage(RUSAGE_SELF, &r2);
+
+    printf("Sequencial:\nElapsed time:%f sec\nUser time:%f sec\nSystem time:%f sec\n\n",
+		(fim.tv_sec + fim.tv_usec/1000000.) - (inic.tv_sec + inic.tv_usec/1000000.),
+		(r2.ru_utime.tv_sec + r2.ru_utime.tv_usec/1000000.) - (r1.ru_utime.tv_sec + r1.ru_utime.tv_usec/1000000.),
+		(r2.ru_stime.tv_sec + r2.ru_stime.tv_usec/1000000.) - (r1.ru_stime.tv_sec + r1.ru_stime.tv_usec/1000000.));
+
+    // print_sparse_matrix(M,n);
 
     return 0;
 }
