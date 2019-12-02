@@ -87,6 +87,27 @@ for(int i=0;i<n;i++){
 }
 }
 
+void matriz_vetor_multi(List **A,double* v,double*res,int n){
+    node* aux;
+    int sum,k;
+   /* assumindo que a matriz tem realmente número de colunas igual ao tamanho do vetor v */
+    #pragma omp parallel for private(sum,aux)
+    for(int i=0;i<n;i++){
+         aux = A[i]->inicio;
+         sum = 0;
+         if(aux->col == -1){
+             aux = NULL;
+         }
+         while(aux !=NULL){
+             sum += aux->value * v[aux->col];
+             printf("col:%d,valor em v:%f\n",aux->col, v[aux->col]);
+             aux = aux->next;
+         }
+         res[i] = sum;
+
+    }
+}
+
 void list_print(node *list) {
     node *aux;
     aux = list;
@@ -101,44 +122,60 @@ void list_print(node *list) {
 /* Descomente main para testar, 
 comente main para usar a lista ligada em outros arquivos */
 
-// int main() {
-//     List *root;
-//     root = (List*) malloc(sizeof(List));
-//     list_init(root);
-//     list_insert(5.4,1,root);
-//     list_insert(0.4,5,root);
-//     list_print(root->inicio);
+ int main() {
+     List *root;
+     root = (List*) malloc(sizeof(List));
+     list_init(root);
+     list_insert(5.4,1,root);
+     list_insert(0.4,5,root);
+     list_print(root->inicio);
 
-//     List **list,**list2,**listRes;
-//     int n = 10;
-//     int i;
-//     list = (List**) malloc(n * sizeof(List*));
-//     list2 = (List**) malloc(n * sizeof(List*));
-//     listRes = (List**) malloc(n * sizeof(List*));
-//     for(i=0; i<n; i++) {
-//        list[i] = (List*) malloc(sizeof(List));
-//         list_init(list[i]);
-//         list2[i] = (List*) malloc(sizeof(List));
-//         list_init(list2[i]);
-//         listRes[i] = (List*) malloc(sizeof(List));
-//         list_init(listRes[i]);
-//     }
+     List **list,**list2,**listRes;
+     int n = 10;
+     int i;
+     list = (List**) malloc(n * sizeof(List*));
+     list2 = (List**) malloc(n * sizeof(List*));
+     listRes = (List**) malloc(n * sizeof(List*));
+     for(i=0; i<n; i++) {
+        list[i] = (List*) malloc(sizeof(List));
+         list_init(list[i]);
+         list2[i] = (List*) malloc(sizeof(List));
+         list_init(list2[i]);
+         listRes[i] = (List*) malloc(sizeof(List));
+         list_init(listRes[i]);
+     }
 
-//     list_insert(1.45, 5, list[3]);
-//     list_insert(3.64, 10, list[3]);
-//     list_insert(0.11, 60, list[3]);
+    double arr[61];
+    for(i = 0;i<61;i++){
+        arr[i] = 0;
+    }
+    arr[1] = 3.2;
+    arr[10] = 2;
+    arr[5] = 1;
+    double arrRes[61];
+    for(i = 0;i<n;i++){
+        arrRes[i] = 0;
+    }
 
-//     list_insert(8.64, 9, list[1]);
-//     list_insert(3.14, 20, list[1]);
-//     list_insert(1.56, 49, list[1]);
+     list_insert(1.45, 5, list[3]);
+     list_insert(3.64, 10, list[3]);
+     list_insert(0.11, 60, list[3]);
 
-//     list_insert(8.64, 9, list2[1]);
+     list_insert(8.64, 9, list[1]);
+     list_insert(3.14, 20, list[1]);
+     list_insert(1.56, 49, list[1]);
+
+     list_insert(8.64, 9, list2[1]);
      
-//     somaPar(list,list2,listRes,n);
+     somaPar(list,list2,listRes,n);
 
-//     list_print(listRes[3]->inicio);
+     list_print(listRes[3]->inicio);
     
-//     list_print(listRes[1]->inicio);
+     list_print(listRes[1]->inicio);
     
-//     return 0;
-// }
+     matriz_vetor_multi(listRes,arr,arrRes,n);
+     for(i=0;i<n;i++){
+     printf("\n%d:%f\n",i,arrRes[i]);
+     }
+     return 0;
+ }
