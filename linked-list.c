@@ -34,7 +34,7 @@ void list_insert(double v, int c, node *list) {
 void list_print(node *list) {
     node *aux;
     aux = list;
-    while(aux != NULL) {
+    while(aux != NULL && aux->col != -1) {
         printf("value: %lf  col: %d\n", aux->value, aux->col);
         aux = aux->next;
     }
@@ -42,34 +42,37 @@ void list_print(node *list) {
     printf("\n");
 }
 
-int main() {
-    node *root;
-    root = (node*) malloc(sizeof(node));
-    list_init(root);
-    list_insert(5.4,1,root);
-    list_insert(0.4,5,root);
-    list_print(root);
+/* Descomente main para testar, 
+comente main para usar a lista ligada em outros arquivos */
 
-    node **list;
-    int n = 10;
-    int i;
-    list = (node**) malloc(n * sizeof(node*));
-    for(i=0; i<n; i++) {
-        list[i] = (node*) malloc(sizeof(node));
-        list_init(list[i]);
-    }
+// int main() {
+//     node *root;
+//     root = (node*) malloc(sizeof(node));
+//     list_init(root);
+//     list_insert(5.4,1,root);
+//     list_insert(0.4,5,root);
+//     list_print(root);
 
-    list_insert(1.45, 5, list[3]);
-    list_insert(3.64, 10, list[3]);
-    list_insert(0.11, 60, list[3]);
+//     node **list;
+//     int n = 10;
+//     int i;
+//     list = (node**) malloc(n * sizeof(node*));
+//     for(i=0; i<n; i++) {
+//         list[i] = (node*) malloc(sizeof(node));
+//         list_init(list[i]);
+//     }
 
-    list_insert(8.64, 9, list[1]);
-    list_insert(3.14, 20, list[1]);
-    list_insert(1.56, 49, list[1]);
+//     list_insert(1.45, 5, list[3]);
+//     list_insert(3.64, 10, list[3]);
+//     list_insert(0.11, 60, list[3]);
 
-    list_print(list[3]);
+//     list_insert(8.64, 9, list[1]);
+//     list_insert(3.14, 20, list[1]);
+//     list_insert(1.56, 49, list[1]);
+
+//     list_print(list[3]);
     
-    list_print(list[1]);
+//     list_print(list[1]);
     
-    return 0;
-}
+//     return 0;
+// }
